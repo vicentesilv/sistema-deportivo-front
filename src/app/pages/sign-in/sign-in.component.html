@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <title></title>
+  </head>
+
+  <body>
+    <div class="container active" id="container">
+      <div class="form-container sign-up">
+        <div class="form">
+          <div class="contenedor">
+            <h1>{{ operacion }}Usuario</h1>
+            <form [formGroup]="form" (ngSubmit)="addProduct()">
+              <table style="width: 100%;">
+                  <tr>
+                      <td><i class="fa-solid fa-envelope"></i></td>
+                      <td><input formControlName="email" type="text" class="form-control" placeholder="Ingrese un email" /></td>
+                  </tr>
+                  
+                  <tr>
+                      <td><i class="fa-solid fa-user"></i></td>
+                      <td><input formControlName="nombre" type="text" class="form-control mt-2" placeholder="Ingrese su nombre"/></td>
+                  </tr>
+                  <tr>
+                      <td><i class="fa-solid fa-lock"></i></td>
+                      <td><input  formControlName="password"  type="password"  class="form-control mt-2"  placeholder="Ingrese contraseña"/></td>
+                  </tr>
+              </table>
+              <span *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched">El campo email es <strong>requerido</strong></span>            
+              <span *ngIf="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">El campo nombre es <strong>requerido</strong></span>
+              <span *ngIf=" form.get('password')?.hasError('required') && form.get('password')?.touched">El campo contraseña es <strong>requerido</strong></span>
+          
+              <button class="button" [disabled]="form.invalid" type="submit">
+                REGISTRARME
+              </button>
+            </form>
+          </div>
+                  </div>
+      </div>
+      <div class="toggle-panel toggle-left">
+        <div class="icon" alt=""></div>
+        <a
+          routerLink="/inicioSesion"
+          class="hidden"
+          id="login"
+          style="margin-top: 20px; font-size: 20px"
+          >INICIAR SESION</a>   
+      </div>
+    </div>
+  </body>
+</html>

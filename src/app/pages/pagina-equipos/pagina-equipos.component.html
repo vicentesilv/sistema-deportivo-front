@@ -1,0 +1,8 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="contenedor">
+    <div *ngFor="let item of equipos" class="contenedor-img" routerLink="/mostrarEquipo/{{item.idEquipo}}">
+      <img src="../../../assets/EQUIPOS/{{ item.img }}" alt="" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<app-navbar></app-navbar><br /><br /><br />
+<div class="contenedor">
+  <div class="row">
+    <div class="carta" *ngFor="let item of contactos">
+      <!-- <div class="card" > -->
+      <img
+        src="../../../assets/{{ item.foto }}"
+        class="card-img-top img"
+        alt="..."
+      />
+
+      <h5 class="name">
+        <b>{{ item["nombre"] }}</b>
+      </h5>
+      <div class="info">
+        <p>matricula: {{ item["matricula"] }}</p>
+        <p>puestos:</p>
+        <ul>
+          <li>{{ item["puesto"][0] }} <br /></li>
+          <li>{{ item["puesto"][1] }}</li>
+          <li>{{ item["puesto"][2] }}</li>
+        </ul>
+        <p>contacto:</p>
+        <table class="tabla">
+          <tr>
+            <td><a href="mailto:{{item.correo}}" class="btn boton btn-info fa-solid fa-envelope"></a></td>
+            <td><a href="https://api.whatsapp.com/send/?phone={{item.telefono}}" class="btn boton btn-info fa-brands fa-whatsapp"></a></td>
+            <td><a href="{{item.github}}" class="btn boton  fa-brands fa-github"></a></td>                        
+          </tr>
+        </table>
+        <!-- <div class="row">
+          <div class="columna">
+            <button class="btn btn-info"></button>
+          </div>
+          <div class="columna">
+            <button class="btn btn-info"></button>
+          </div>
+        </div> -->
+      </div>
+
+      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+      <!-- </div> -->
+    </div>
+  </div>
+</div>

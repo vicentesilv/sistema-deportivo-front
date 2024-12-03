@@ -1,0 +1,63 @@
+<app-navbar></app-navbar>
+<div class="tabla">
+  <!-- Sección izquierda: Tabla de jugadores -->
+  <div class="izquierda">
+    <table class="table tabl">
+      <thead>
+        <tr class="borde">
+          <th scope="col">Nombre</th>
+          <th scope="col">Nacionalidad</th>
+          <th scope="col">Posición</th>
+          <th scope="col">Equipo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Iterar sobre la lista de jugadores y agregar evento click -->
+        <tr
+          *ngFor="let item of futbolistas"
+          (click)="mostrarFoto(item.img, item.idJugador)"
+        >
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.nacionalidad }}</td>
+          <td>{{ item.posicion }}</td>
+          <td>{{ item.idEquipo }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Sección derecha: Foto y estadísticas -->
+  <div class="derecha">
+    <!-- Foto del jugador seleccionado -->
+    <div class="foto">
+      <img
+        *ngIf="imagenSeleccionada"
+        [src]="'../../../assets/JUGADORES/' + imagenSeleccionada"
+        alt="Foto del jugador"
+      />
+    </div>
+
+    <!-- Tabla de goles del jugador seleccionado -->
+    <div class="estadisticas">
+      <div class="table-responsive">
+        <table class="table tabl">
+          <thead>
+            <tr class="borde">
+              <th scope="col">Gol</th>
+              <th scope="col">nombre del jugador</th>
+              <th scope="col">Lugar Tiro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Iterar sobre los goles filtrados del jugador seleccionado -->
+            <tr *ngFor="let item of goles">
+              <td>{{ item.gol ? 'Gol anotado' : 'Gol fallado'}}</td>
+              <td>{{ item.nombreJugador }}</td>
+              <td><img src="../../../assets/Porterias/P{{item.lugarTiro}}.png" style="width: 100px; height: 60px;background-color: white;" alt="hola"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<nav>
+  <div class="resp">
+    <div class="header">
+      <img src="../../../assets/images/icono.png" alt="" class="icon">  
+      <div class="mas"><button (click)="click()"><span class="material-symbols-outlined">
+        menu
+        </span></button></div>
+    </div>
+    <div id="links" class="nav-links nueva">
+      <a class="link" routerLink="/Usuarios">Usuarios</a>
+      <a class="link" routerLink="/Futbolistas">Futbolistas</a>
+      <a class="link" routerLink="/Equipos">Equipos</a>
+      <a class="link" routerLink="/Predicciones">Predicciones</a>
+      <a class="link" routerLink="/Contacto">Contacto</a>
+
+      <a class="link cerrarSesion" (click)="logOut()">Cerrar Sesion</a>
+    </div>
+  </div>
+  <div class="norm">
+    <img src="../../../assets/images/icono.png" alt="" class="icon">  
+    <div class="primero">
+      <a class="link" routerLink="/Usuarios">Usuarios</a>
+      <a class="link" routerLink="/Futbolistas">Futbolistas</a>
+      <a class="link" routerLink="/Equipos">Equipos</a>
+      <a class="link" routerLink="/Predicciones">Predicciones</a>
+    </div>
+    <div class="segundo">
+      <a class="link" routerLink="/Contacto">Contacto</a>
+
+      <a class="link cerrarSesion" (click)="logOut()">Cerrar Sesion</a>
+
+    </div>
+  </div>
+</nav>

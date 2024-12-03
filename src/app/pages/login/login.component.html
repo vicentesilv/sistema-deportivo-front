@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="login.component.css">
+    <title></title>
+</head>
+
+<body>
+    <div class="container " id="container">
+        <div class="form-container sign-in">
+            <div class="form">
+                <h1>Iniciar sesion</h1>
+
+
+                <table style="width: 100%;">
+                    <tr>
+                        <td><i class="fa-solid fa-envelope"></i></td>
+                        <td><input type="email" [(ngModel)]="email" placeholder="Email" id="user-email"></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-lock"></i></td>
+                        <td><input type="password" [(ngModel)]="password" placeholder="contraseña"></td>
+                    </tr>
+                </table>
+
+                <button class="button" (click)="login()">INICIAR SESION</button> 
+            </div>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-right">
+                    <div class="icon" alt=""></div>
+                    <a routerLink="/registro" class="hidden " id="register" style="margin-top: 20px;font-size: 20px;">REGISTRARSE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+
+

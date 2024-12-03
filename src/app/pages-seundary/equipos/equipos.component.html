@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="contenedor" *ngIf="equipo; else noData">
+    <table class="header">
+      <tr>
+        <td>
+          <h1 class="header-title">{{ equipo.nombre }}</h1>
+        </td>
+        <td> <img class="header-img"
+          [src]="'../../../assets/EQUIPOS/' + equipo.img"
+          alt="{{ equipo.nombre }}"
+        /></td>
+      </tr>
+      <br><br>
+      
+    </table>
+    
+  </div>
+  <table class="table tabl">
+      <thead>
+        <tr class="borde">
+          
+          <th scope="col">Equipo</th>
+          <th scope="col">Equipo Contrario</th>
+          <th scope="col">fecha</th>
+          <th scope="col">torneo</th>
+          <th scope="col">sede</th>
+          <th scope="col">arranque</th>
+          <th scope="col">marcador a favor</th>
+          <th scope="col">marcador en contra</th>
+          <th scope="col">minuto</th>
+          <th scope="col">ronda</th>
+  
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of partido">
+          <td>{{ item.idEquipo}}</td>
+          <td>{{ item.idEquipoContrario }}</td>
+          <td>{{ item.fecha }}</td>
+          <td>{{ item.torneo }}</td>
+          <td>{{ item.sede }}</td>
+          <td>{{ item.arranque? "si arranco" :"no arranco"}}</td>
+          <td>{{ item.marcadorF }}</td>
+          <td>{{ item.marcadorC }}</td>
+          <td>{{ item.minuto }}</td>
+          <td>{{ item.ronda }}</td>
+        </tr>
+      </tbody>
+    </table>
+  <ng-template #noData>
+    <p>No se encontró información del equipo.</p>
+  </ng-template>
+  
+</div>
