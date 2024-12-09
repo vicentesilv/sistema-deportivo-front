@@ -1,1 +1,43 @@
-<app-navbar></app-navbar>
+<app-navbar></app-navbar> 
+   <div class="container">
+    <h2>Detalles del Jugador</h2>
+    <div class="form-group">
+      <label for="jugador">Seleccionar Jugador:</label>
+      <select
+        id="jugador"
+        class="form-control"
+        [(ngModel)]="selectedJugador"
+        (change)="onJugadorSelect()"
+      >
+        <option *ngFor="let jugador of jugadores" [value]="jugador.idJugador">
+          {{ jugador.nombre }}
+        </option>
+      </select>
+    </div>
+    <button class="btn btn-primary mt-3" (click)="mostrarDetalles()">Mostrar Detalles</button>
+  
+    <div *ngIf="detalles">
+      <h3>Goles</h3>
+      <ul>
+        <li *ngFor="let gol of goles">
+          Gol anotado por {{ gol.nombreJugador }} en la posición {{ gol.lugarTiro }}
+        </li>
+      </ul>
+  
+      <h3>Equipo</h3>
+      <tr *ngFor="let item of equipo">
+        <td>{{ item.idEquipo}}</td>
+        <td>{{ item.nombre}}</td>
+        <td>{{ item.img }}</td>
+      </tr>
+
+
+      <h3>Partidos</h3>
+      <ul>
+        <li *ngFor="let partido of partidos">
+          Partido contra {{ partido.idEquipoContrario }} - Fecha: {{ partido.fecha }} - Torneo: {{ partido.torneo }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  

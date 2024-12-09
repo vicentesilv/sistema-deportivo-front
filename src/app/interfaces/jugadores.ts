@@ -4,6 +4,6 @@ export interface Jugadores{
     nombre: string,
     nacionalidad: string,
     posicion: string,
-    idEquipo: number,
+    idEquipo: string,
     img: string
 }

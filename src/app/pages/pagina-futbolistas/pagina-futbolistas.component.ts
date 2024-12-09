@@ -34,19 +34,19 @@ export class PaginaFutbolistasComponent implements OnInit {
   }
 
   getGoles(): void {
-    this._GolesServices.getGoles().subscribe((data) => {
-      this.todosGoles = data; // Almacenar todos los goles
-      this.goles = []; // Inicialmente, la tabla de goles está vacía
+      this._GolesServices.getGoles().subscribe((data) => {
+        this.todosGoles = data; // Almacenar todos los goles
+        this.goles = []; // Inicialmente, la tabla de goles está vacía
 
-      // Agregar el nombre del jugador a cada gol
-      this.todosGoles.forEach((gol) => {
-        const jugador = this.futbolistas.find(
-          (futbolista) => futbolista.idJugador === gol.idJugador
-        );
-        gol.nombreJugador = jugador ? jugador.nombre : 'Desconocido';
+        // Agregar el nombre del jugador a cada gol
+        this.todosGoles.forEach((gol) => {
+          const jugador = this.futbolistas.find(
+            (futbolista) => futbolista.idJugador === gol.idJugador
+          );
+          gol.nombreJugador = jugador ? jugador.nombre : 'Desconocido';
+        });
       });
-    });
-  }
+    }
 
   mostrarFoto(img: string, idJugador: number): void {
     this.imagenSeleccionada = img;
