@@ -21,6 +21,7 @@ export class PaginaPrediccionesComponent implements OnInit {
   equipo: Equipos[] | null = null;
   partidos: Partidos[] = [];
   detalles = true;
+  modaLugarTiro: number | null = null; // Variable para guardar la moda
 
   constructor(
     private jugadoresService: JugadoresServices,
@@ -44,6 +45,7 @@ export class PaginaPrediccionesComponent implements OnInit {
     this.goles = [];
     this.equipo = null;
     this.partidos = [];
+    this.modaLugarTiro = null; 
   }
 
   mostrarDetalles() {
@@ -63,6 +65,8 @@ export class PaginaPrediccionesComponent implements OnInit {
       data.goles = golesData.filter(
         (gol) => gol.idJugador == this.selectedJugador
       );
+
+      this.calcularModaLugarTiro(data.goles); // Calcular la moda
 
       const jugadorSeleccionado = this.jugadores.find(
         (jugador) => jugador.idJugador == this.selectedJugador
@@ -91,11 +95,47 @@ export class PaginaPrediccionesComponent implements OnInit {
             this.equipo = data.equipo;
             this.partidos = data.partidos;
             this.goles = data.goles;
-
-            console.log(data);
           });
         });
       }
     });
   }
+
+  calcularModaLugarTiro(goles: Goles[]): void {
+    if (!goles || goles.length === 0) {
+      this.modaLugarTiro = null;
+      return ;
+    }
+  
+    // Crear un objeto para contar las ocurrencias
+    const lugarCounts: { [key: number]: number } = {};
+  
+    for (let i = 0; i < goles.length; i++) {
+      const lugar = goles[i].lugarTiro;
+  
+      if (lugarCounts[lugar] === undefined) {
+        lugarCounts[lugar] = 1; // Inicia el conteo
+      } else {
+        lugarCounts[lugar]++; // Incrementa el conteo
+      }
+    }
+  
+    // Determinar la moda
+    let maxCount = 0;
+    let moda = null;
+  
+    for (const lugar in lugarCounts) {
+      if (lugarCounts[lugar] > maxCount) {
+        maxCount = lugarCounts[lugar];
+        moda = +lugar; // Convertir a número
+      }
+    }
+  
+    this.modaLugarTiro = moda; // Asignar la moda encontrada
+    console.log(moda);
+    
+  }
+  
+  
+  
 }
