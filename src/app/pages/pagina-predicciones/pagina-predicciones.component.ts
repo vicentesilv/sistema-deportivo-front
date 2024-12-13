@@ -1,13 +1,10 @@
-import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Equipos } from 'src/app/interfaces/equipos';
 import { Goles } from 'src/app/interfaces/goles';
 import { Jugadores } from 'src/app/interfaces/jugadores';
-import { Partidos } from 'src/app/interfaces/partidos';
 import { EquiposService } from 'src/app/services/equipos.service';
 import { GolesService } from 'src/app/services/goles.service';
 import { JugadoresServices } from 'src/app/services/jugadores.service';
-import { PartidosService } from 'src/app/services/partidos.service';
 
 @Component({
   selector: 'app-pagina-predicciones',
@@ -16,126 +13,103 @@ import { PartidosService } from 'src/app/services/partidos.service';
 })
 export class PaginaPrediccionesComponent implements OnInit {
   jugadores: Jugadores[] = [];
-  selectedJugador: number | null = null;
+  equipos: Equipos[] = [];
   goles: Goles[] = [];
-  equipo: Equipos[] | null = null;
-  partidos: Partidos[] = [];
-  detalles = true;
-  modaLugarTiro: number | null = null; // Variable para guardar la moda
+  modaLugarTiro: number | null = null;
+
+  formulario = {
+    jugadorId: null as number | null,
+    sede: '',
+    inicioJuego: '',
+    equipoRivalId: null as number | null,
+    minuto: 0,
+    ronda: '',
+  };
 
   constructor(
     private jugadoresService: JugadoresServices,
-    private golesService: GolesService,
     private equiposService: EquiposService,
-    private partidosService: PartidosService
+    private golesService: GolesService
   ) {}
 
   ngOnInit(): void {
     this.cargarJugadores();
+    this.cargarEquipos();
   }
 
-  cargarJugadores() {
-    this.jugadoresService.getJugadores().subscribe((data) => {
-      this.jugadores = data;
+  cargarJugadores(): void {
+    this.jugadoresService.getJugadores().subscribe({
+      next: (data) => {
+        this.jugadores = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar jugadores:', err);
+      },
     });
   }
 
-  onJugadorSelect() {
-    this.detalles = true;
-    this.goles = [];
-    this.equipo = null;
-    this.partidos = [];
-    this.modaLugarTiro = null; 
+  cargarEquipos(): void {
+    this.equiposService.getEquipos().subscribe({
+      next: (data) => {
+        this.equipos = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar equipos:', err);
+      },
+    });
   }
 
-  mostrarDetalles() {
-    if (this.selectedJugador === null) return;
+  onJugadorSelect(): void {
+    if (!this.formulario.jugadorId) return;
 
-    const data: {
-      equipo: Equipos[] | null;
-      partidos: Partidos[];
-      goles: Goles[];
-    } = {
-      equipo: null,
-      partidos: [],
-      goles: [],
-    };
+    this.golesService.getGoles().subscribe({
+      next: (data) => {
+        this.goles = data
+        .filter(
+          (gol) => gol.idJugador == this.formulario.jugadorId
+        );
+        // console.log(this.goles); 
+        
 
-    this.golesService.getGoles().subscribe((golesData) => {
-      data.goles = golesData.filter(
-        (gol) => gol.idJugador == this.selectedJugador
-      );
-
-      this.calcularModaLugarTiro(data.goles); // Calcular la moda
-
-      const jugadorSeleccionado = this.jugadores.find(
-        (jugador) => jugador.idJugador == this.selectedJugador
-      );
-
-      if (jugadorSeleccionado) {
-        this.equiposService.getEquipos().subscribe((equiposData) => {
-          data.equipo = equiposData.filter(
-            (item) =>
-              item.nombre.toLowerCase() ===
-              jugadorSeleccionado.idEquipo.toLowerCase()
-          );
-
-          this.partidosService.getEquipos().subscribe((partidosData) => {
-            data.partidos = partidosData
-              .filter(
-                (item) =>
-                  item.idEquipo.toLowerCase() ===
-                  jugadorSeleccionado.idEquipo.toLowerCase()
-              )
-              .map((item) => ({
-                ...item,
-                fecha: formatDate(item.fecha, 'dd/MM/yyyy', 'en-US'),
-              }));
-
-            this.equipo = data.equipo;
-            this.partidos = data.partidos;
-            this.goles = data.goles;
-          });
-        });
-      }
+        this.calcularModaLugarTiro(this.goles); // Calcular la moda
+      },
+      error: (err) => {
+        console.error('Error al cargar goles:', err);
+      },
     });
   }
 
   calcularModaLugarTiro(goles: Goles[]): void {
     if (!goles || goles.length === 0) {
       this.modaLugarTiro = null;
-      return ;
+      return;
     }
-  
-    // Crear un objeto para contar las ocurrencias
-    const lugarCounts: { [key: number]: number } = {};
-  
-    for (let i = 0; i < goles.length; i++) {
-      const lugar = goles[i].lugarTiro;
-  
-      if (lugarCounts[lugar] === undefined) {
-        lugarCounts[lugar] = 1; // Inicia el conteo
-      } else {
-        lugarCounts[lugar]++; // Incrementa el conteo
-      }
-    }
-  
-    // Determinar la moda
+
+    const lugarCounts: Record<number, number> = {};
+
+    goles.forEach((gol) => {
+      const lugar = gol.lugarTiro;
+      lugarCounts[lugar] = (lugarCounts[lugar] || 0) + 1; // Incrementa el conteo
+    });
+
     let maxCount = 0;
     let moda = null;
-  
+
     for (const lugar in lugarCounts) {
       if (lugarCounts[lugar] > maxCount) {
         maxCount = lugarCounts[lugar];
         moda = +lugar; // Convertir a número
       }
     }
-  
+
     this.modaLugarTiro = moda; // Asignar la moda encontrada
-    console.log(moda);
-    
+    console.log('Moda de lugar de tiro:', this.modaLugarTiro);
   }
-  
-  
-  
+
+  procesarFormulario(): void {
+    console.log('Moda del lugar de tiro:', this.modaLugarTiro);
+    console.log('Datos del formulario:', this.formulario);
+
+    // Aquí puedes procesar los datos o enviarlos a un servidor.
+  }
 }

@@ -1,43 +1,80 @@
-<app-navbar></app-navbar> 
-   <div class="container">
-    <h2>Detalles del Jugador</h2>
+<app-navbar></app-navbar>
+<div class="container">
+  <h2>Detalles del Jugador</h2>
+  <form (ngSubmit)="procesarFormulario()">
     <div class="form-group">
       <label for="jugador">Seleccionar Jugador:</label>
       <select
         id="jugador"
         class="form-control"
-        [(ngModel)]="selectedJugador"
+        [(ngModel)]="formulario.jugadorId"
+        name="jugador"
         (change)="onJugadorSelect()"
       >
         <option *ngFor="let jugador of jugadores" [value]="jugador.idJugador">
           {{ jugador.nombre }}
         </option>
       </select>
-    </div>
-    <button class="btn btn-primary mt-3" (click)="mostrarDetalles()">Mostrar Detalles</button>
-  
-    <div *ngIf="detalles">
-      <h3>Goles</h3>
-      <ul>
-        <li *ngFor="let gol of goles">
-          Gol anotado por {{ gol.nombreJugador }} en la posición {{ gol.lugarTiro }}
-        </li>
-      </ul>
-  
-      <h3>Equipo</h3>
-      <tr *ngFor="let item of equipo">
-        <td>{{ item.idEquipo}}</td>
-        <td>{{ item.nombre}}</td>
-        <td>{{ item.img }}</td>
-      </tr>
 
+      <label for="sede">Selecciona la sede del equipo:</label>
+      <select
+        id="sede"
+        class="form-control"
+        [(ngModel)]="formulario.sede"
+        name="sede"
+      >
+        <option value="sede">Sede</option>
+        <option value="visitante">Visitante</option>
+      </select>
 
-      <h3>Partidos</h3>
-      <ul>
-        <li *ngFor="let partido of partidos">
-          Partido contra {{ partido.idEquipoContrario }} - Fecha: {{ partido.fecha }} - Torneo: {{ partido.torneo }}
-        </li>
-      </ul>
+      <label for="arranque">Seleccione si el equipo inicia el juego:</label>
+      <select
+        id="arranque"
+        class="form-control"
+        [(ngModel)]="formulario.inicioJuego"
+        name="inicioJuego"
+      >
+        <option value="si">Sí inicia</option>
+        <option value="no">No inicia</option>
+      </select>
+
+      <label for="rival">Seleccione el equipo rival:</label>
+      <select
+        id="rival"
+        class="form-control"
+        [(ngModel)]="formulario.equipoRivalId"
+        name="equipoRival"
+      >
+        <option *ngFor="let equipo of equipos" [value]="equipo.idEquipo">
+          {{ equipo.nombre }}
+        </option>
+      </select>
+
+      <label for="minuto">Seleccione el minuto del partido:</label>
+      <input
+        type="number"
+        id="minuto"
+        class="form-control"
+        [(ngModel)]="formulario.minuto"
+        name="minuto"
+        min="0"
+        max="90"
+      />
+
+      <label for="ronda">Seleccione la ronda:</label>
+      <select
+        id="ronda"
+        class="form-control"
+        [(ngModel)]="formulario.ronda"
+        name="ronda"
+      >
+        <option value="regular">Regular</option>
+        <option value="cuartos">Cuartos de final</option>
+        <option value="semifinal">Semifinal</option>
+        <option value="final">Final</option>
+      </select>
     </div>
-  </div>
-  
+
+    <button type="submit" class="btn btn-primary mt-3">Mostrar predicción</button>
+  </form>
+</div>
