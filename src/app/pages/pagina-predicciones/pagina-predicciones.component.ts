@@ -16,6 +16,7 @@ export class PaginaPrediccionesComponent implements OnInit {
   equipos: Equipos[] = [];
   goles: Goles[] = [];
   modaLugarTiro: number | null = null;
+  resultado:number=0
 
   formulario = {
     jugadorId: null as number | null,
@@ -24,6 +25,8 @@ export class PaginaPrediccionesComponent implements OnInit {
     equipoRivalId: null as number | null,
     minuto: 0,
     ronda: '',
+    marcadorF: 0,
+    marcadorC: 0,
   };
 
   constructor(
@@ -64,13 +67,9 @@ export class PaginaPrediccionesComponent implements OnInit {
 
     this.golesService.getGoles().subscribe({
       next: (data) => {
-        this.goles = data
-        .filter(
+        this.goles = data.filter(
           (gol) => gol.idJugador == this.formulario.jugadorId
         );
-        // console.log(this.goles); 
-        
-
         this.calcularModaLugarTiro(this.goles); // Calcular la moda
       },
       error: (err) => {
@@ -106,10 +105,84 @@ export class PaginaPrediccionesComponent implements OnInit {
     console.log('Moda de lugar de tiro:', this.modaLugarTiro);
   }
 
-  procesarFormulario(): void {
-    console.log('Moda del lugar de tiro:', this.modaLugarTiro);
-    console.log('Datos del formulario:', this.formulario);
+  calcularProbabilidad(): void {
+    let porcentajeTotal = 0;
 
-    // Aquí puedes procesar los datos o enviarlos a un servidor.
+    // Sede
+    if (this.formulario.sede === 'sede') {
+      porcentajeTotal += 20;
+    } else if (this.formulario.sede === 'visitante') {
+      porcentajeTotal += 10;
+    }
+
+    // Arranque
+    if (this.formulario.inicioJuego === 'si') {
+      porcentajeTotal += 20;
+    } else if (this.formulario.inicioJuego === 'no') {
+      porcentajeTotal += 10;
+    }
+
+    // Tiempo
+    const porcentajeTiempo = (20 / 90) * this.formulario.minuto;
+    porcentajeTotal += porcentajeTiempo;
+
+    // Ronda
+    switch (this.formulario.ronda) {
+      case 'regular':
+        porcentajeTotal += 20;
+        break;
+      case 'cuartos':
+        porcentajeTotal += 15;
+        break;
+      case 'semifinal':
+        porcentajeTotal += 10;
+        break;
+      case 'final':
+        porcentajeTotal += 5;
+        break;
+    }
+
+    // Marcador
+    if (this.formulario.marcadorF > this.formulario.marcadorC) {
+      porcentajeTotal += 10;
+    } else {
+      porcentajeTotal += 20;
+    }
+
+    // Imprimir el porcentaje total
+    console.log('Porcentaje total:', porcentajeTotal);
+
+    // Generar un número aleatorio entre 1 y 6 con probabilidad ajustada
+    const random = Math.random() * 100;
+   
+
+    if (random <= porcentajeTotal) {
+      // Más probabilidad para los valores medios
+      const pesos = [5, 10, 25, 25, 10, 5];
+      const acumulados = pesos.map((peso, i) => pesos.slice(0, i + 1).reduce((a, b) => a + b, 0));
+
+      const randomPeso = Math.random() * 100;
+      for (let i = 0; i < acumulados.length; i++) {
+        if (randomPeso <= acumulados[i]) {
+          this.resultado = i + 1;
+          break;
+        }
+      }
+    } else {
+      // Valor aleatorio no afectado por el porcentaje
+      this.resultado = Math.floor(Math.random() * 6) + 1;
+    }
+
+  }
+
+  procesarFormulario(): void {
+    console.log('Datos del formulario:', this.formulario);
+    this.calcularProbabilidad();
+  }
+
+  getEquipoNombre(equipoId: number | null): string | null {
+    if (!equipoId) return null;
+    const equipo = this.equipos.find((e) => e.idEquipo == equipoId);
+    return equipo ? equipo.nombre.toString() : null;
   }
 }

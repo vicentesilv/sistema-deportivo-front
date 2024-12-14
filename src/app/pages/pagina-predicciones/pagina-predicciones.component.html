@@ -1,7 +1,9 @@
 <app-navbar></app-navbar>
+<h2 style="text-align: center">prediccion de lanzamiento del Jugador</h2>
 <div class="container">
-  <h2>Detalles del Jugador</h2>
-  <form (ngSubmit)="procesarFormulario()">
+  <div class="datos">
+
+  <div class="datos">
     <div class="form-group">
       <label for="jugador">Seleccionar Jugador:</label>
       <select
@@ -16,6 +18,18 @@
         </option>
       </select>
 
+      <label for="rival">Seleccione el equipo rival:</label>
+      <select
+        id="rival"
+        class="form-control"
+        [(ngModel)]="formulario.equipoRivalId"
+        name="equipoRival"
+      >
+        <option *ngFor="let equipo of equipos" [value]="equipo.idEquipo">
+          {{ equipo.nombre }}
+        </option>
+      </select>
+
       <label for="sede">Selecciona la sede del equipo:</label>
       <select
         id="sede"
@@ -23,7 +37,7 @@
         [(ngModel)]="formulario.sede"
         name="sede"
       >
-        <option value="sede">Sede</option>
+        <option value="sede">Local</option>
         <option value="visitante">Visitante</option>
       </select>
 
@@ -37,19 +51,12 @@
         <option value="si">Sí inicia</option>
         <option value="no">No inicia</option>
       </select>
+    </div>
 
-      <label for="rival">Seleccione el equipo rival:</label>
-      <select
-        id="rival"
-        class="form-control"
-        [(ngModel)]="formulario.equipoRivalId"
-        name="equipoRival"
-      >
-        <option *ngFor="let equipo of equipos" [value]="equipo.idEquipo">
-          {{ equipo.nombre }}
-        </option>
-      </select>
 
+
+
+    <div class="marcador">
       <label for="minuto">Seleccione el minuto del partido:</label>
       <input
         type="number"
@@ -73,8 +80,72 @@
         <option value="semifinal">Semifinal</option>
         <option value="final">Final</option>
       </select>
-    </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Mostrar predicción</button>
-  </form>
+      <br /><br />
+      <table>
+        <tr>
+          <td>
+            <p>
+              {{
+                getEquipoNombre(formulario.jugadorId) ||
+                  "Equipo no seleccionado"
+              }}
+            </p>
+            <br />
+            <img
+              *ngIf="formulario.jugadorId"
+              src="../../../assets/EQUIPOS/{{
+                getEquipoNombre(formulario.jugadorId)
+              }}.png"
+              alt=""
+              width="80%"
+              height="300px"
+            />
+          </td>
+          <td>
+            <p>
+              {{
+                getEquipoNombre(formulario.equipoRivalId) ||
+                  "Rival no seleccionado"
+              }}
+            </p>
+            <br />
+            <img
+              *ngIf="formulario.equipoRivalId"
+              src="../../../assets/EQUIPOS/{{
+                getEquipoNombre(formulario.equipoRivalId)
+              }}.png"
+              alt=""
+              width="80%"
+              height="300px"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="number" class="form-control" [(ngModel)]="formulario.marcadorF">
+          </td>
+          <td>
+            <input type="number" class="form-control" [(ngModel)]="formulario.marcadorC">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  </div>
+  <!-- 
+  <form (ngSubmit)="procesarFormulario()">
+   
+
+
+   
+
+
+  </form> -->
+  <div class="porteria">
+    <img src="../../../assets/Porterias/P{{resultado}}.png" alt="" width="600px" height="450px">
+  </div>
+
+</div>
+<div style="text-align: center;">  <button (click)="procesarFormulario()" class="btn btn-primary mt-3">Mostrar predicción</button>
 </div>
