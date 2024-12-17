@@ -22,7 +22,7 @@ tbody tr:active {
 }
 .foto {
     width: 100%;
-    height: auto;
+    height: 98%;
     background: #fff;
     border: 5px solid #6295baaf;
     margin-bottom: 30px;
@@ -30,7 +30,7 @@ tbody tr:active {
 }
 .foto img {
     width: 60%;
-    height: auto;
+    height: 100%;
     margin: 0 20%;
 }
 .foto img:hover {
@@ -42,7 +42,7 @@ tbody tr:active {
     border-radius: 25px;
     overflow-y: auto; /* Agrega la barra de desplazamiento vertical */
     overflow-x: hidden; /* Evita desplazamiento horizontal */
-    padding: 10px;
+    padding: 5px;
 }
 .table-responsive {
     width: 100%;
