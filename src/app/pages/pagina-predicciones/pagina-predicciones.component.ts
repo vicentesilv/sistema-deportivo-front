@@ -185,4 +185,7 @@ export class PaginaPrediccionesComponent implements OnInit {
     const equipo = this.equipos.find((e) => e.idEquipo == equipoId);
     return equipo ? equipo.nombre.toString() : null;
   }
+  reload(){
+    window.location.reload()
+  }
 }

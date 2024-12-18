@@ -14,7 +14,7 @@ export class PaginacontactoComponent implements OnInit {
      "foto": "miguel.jpeg",
      "correo": "malvarado041@gmail.com",
      "telefono": "526692381166",
-     "github":""
+     "github":"https://github.com"
   },{
     "nombre":"ALBERTO BRODDEN GAETA",
     "matricula": 23050019,
@@ -39,6 +39,14 @@ export class PaginacontactoComponent implements OnInit {
     "correo": "danieleduardotirado@gmail.com",
     "telefono": "526692237128",
     "github": "https://github.com/Wannalite"
+  },{
+    "nombre":"Eduardo Laveaga Sandoval",
+    "matricula": 23050088,
+    "puesto": ["lider de proyecto","diseñador de base de datos"],
+    "foto": "eduardo.jpeg",
+    "correo": "eduardolaveaga@outlook.com",
+    "telefono": "526693266170",
+    "github": "https://github.com"
   }
 ];
   
